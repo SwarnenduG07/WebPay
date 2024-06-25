@@ -12,11 +12,11 @@ export async function createonRampTransaction(amount: number, provider: string) 
             message: "you are not logged in"
           }
       }
-       prisma.createonRampTransaction.create({
+       prisma.onRampTransaction.create({
         data: {
             userId: Number(userId),
             amount: amount,
-            status: "processing",
+            status: "Processing",
             startTime: new Date(),
             provider,
             token: token
