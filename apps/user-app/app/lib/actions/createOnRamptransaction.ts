@@ -14,12 +14,15 @@ export async function createonRampTransaction(amount: number, provider: string) 
       }
        prisma.onRampTransaction.create({
         data: {
-            userId: Number(userId),
-            amount: amount,
+            userId: Number(session?.user?.id),
+            amount: amount * 100,
             status: "Processing",
             startTime: new Date(),
             provider,
             token: token
          }
-    })
+    });
+     return {
+      message: "Done"
+     }
 }
