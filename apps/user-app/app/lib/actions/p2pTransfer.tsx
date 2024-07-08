@@ -23,24 +23,6 @@ export async function p2pTransfer(to: string, amount: number) {
         }
     }
     await prisma.$transaction(async (tx) => {
-        const fromBalance = await tx.balance.findUnique({
-            where: { userId: Number(from) },
-          });
-          if (!fromBalance || fromBalance.amount < amount) {
-            throw new Error('Insufficient funds');
-          }
-
-          await tx.balance.update({
-            where: { userId: Number(from) },
-            data: { amount: { decrement: amount } },
-          });
-
-          await tx.balance.update({
-            where: { userId: toUser.id },
-            data: 
-               { amount:
-                       { increment: amount } 
-                    },
-          });
+        await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`
     });
 }
